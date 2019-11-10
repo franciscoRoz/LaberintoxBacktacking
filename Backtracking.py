@@ -3,12 +3,12 @@ from time import sleep
 import os.path as path
 
 
-def widerror():
+def widerror(Terror):
     wid2 = TK.Tk()
     wid2.title("ERROR")
     wid2.geometry("350x100")
     wid2["bg"] = "black"
-    bsc2 = TK.Label(wid2,text="error nombre del archivo incorrecto")
+    bsc2 = TK.Label(wid2,text=Terror)
     bsc2["fg"] = "white"
     bsc2["bg"] = "black"
     bsc2.place(x=70, y=20)
@@ -18,16 +18,19 @@ def widerror():
 def info():
     var=entry.get()
     file=var+".txt"
-    print(file)
+    
     if path.exists(file):
-        wid.withdraw()
-        NXM=claberinto(var)
-        x,y=ubicacion(NXM)
-        z=setearlab(NXM)
-        principal(z,x,y)
+        try:
+            NXM=claberinto(var)
+            x,y=ubicacion(NXM)
+            z=setearlab(NXM)
+            #wid.withdraw()
+            principal(z,x,y)
+        except:
+            widerror("Formato del archivo no valido")
 
     else:
-        widerror()
+        widerror("nombre de archivo no valido")
 class Ventana():
     """ Esta clase permite crear ventanas en las cuales
         existe un TurtleScreen  llamado 'fondo_ventana' 
@@ -318,16 +321,19 @@ def claberinto (narray):
     return NXM
 
 def ubicacion (NXM):
-    col=0
-    row=0
-    ant=len(NXM[col])
-    col+=(len(NXM))
-    for y in range(col):
-        if "*" in NXM[y]:
-            x=NXM[y].index("*")
-            return x,y
-        else:
-            None
+    try:
+        col=0
+        row=0
+        ant=len(NXM[col])
+        col+=(len(NXM))
+        for y in range(col):
+            if "*" in NXM[y]:
+                x=NXM[y].index("*")
+                return x,y
+            else:
+                None
+    except:
+        widerror("archivo no valido favor revisar")
 def setearlab(NXM):
     z=""
     lineas=len(NXM)
